@@ -24,10 +24,13 @@ async def echo(message: types.Message):
     logging.warning(f'Recieved a message from {message.from_user}')
     await bot.send_message(message.chat.id, message.text)
 
-    db_object = await db_connection.cursor()
-    await db_object.execute("SELECT * FROM users")
+    db_object = db_connection.cursor()
+    db_object.execute("SELECT * FROM users")
     result = db_object.fetchone()
     print(result)
+
+
+
 
 async def on_startup(dp):
 
