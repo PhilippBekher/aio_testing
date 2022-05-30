@@ -1,12 +1,17 @@
 import logging
 
+import psycopg2
 from aiogram import Bot, types
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils.executor import start_webhook
+
 from bot.settings import (BOT_TOKEN, HEROKU_APP_NAME,
                           WEBHOOK_URL, WEBHOOK_PATH,
-                          WEBAPP_HOST, WEBAPP_PORT)
+                          WEBAPP_HOST, WEBAPP_PORT, DB_URL)
+
+db_connection = psycopg2.connect( DB_URL, sslmode = "require")
+db_object = db_connection.cursor()
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
@@ -20,6 +25,8 @@ async def echo(message: types.Message):
 
 
 async def on_startup(dp):
+
+
     logging.warning(
         'Starting connection. ')
     await bot.set_webhook(WEBHOOK_URL,drop_pending_updates=True)

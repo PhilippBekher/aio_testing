@@ -8,6 +8,7 @@ if not BOT_TOKEN:
 
 HEROKU_APP_NAME = os.getenv('HEROKU_APP_NAME')
 
+DB_URL = os.getenv('DATABASE_URL')
 
 # webhook settings
 WEBHOOK_HOST = f'https://{HEROKU_APP_NAME}.herokuapp.com'
