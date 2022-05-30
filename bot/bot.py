@@ -12,7 +12,7 @@ from bot.settings import (BOT_TOKEN, HEROKU_APP_NAME,
                           WEBAPP_HOST, WEBAPP_PORT, DB_URL)
 
 db_connection = psycopg2.connect( DB_URL, sslmode = "require")
-db_object = db_connection.cursor()
+
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
@@ -24,6 +24,7 @@ async def echo(message: types.Message):
     logging.warning(f'Recieved a message from {message.from_user}')
     await bot.send_message(message.chat.id, message.text)
 
+    db_object = db_connection.cursor()
     db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
     first_question = db_object.fetchone()
     print(first_question)
