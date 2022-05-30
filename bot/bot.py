@@ -26,6 +26,8 @@ async def echo(message: types.Message):
 
     db_object = db_connection.cursor()
     db_object.execute("SELECT * FROM users")
+    resut = db_object.fetchone()
+    print(result)
     db_connection.commit()
     db_connection.close()
 
