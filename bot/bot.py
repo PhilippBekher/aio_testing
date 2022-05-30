@@ -23,6 +23,7 @@ dp.middleware.setup(LoggingMiddleware())
 async def echo(message: types.Message):
     logging.warning(f'Recieved a message from {message.from_user}')
     await bot.send_message(message.chat.id, message.text)
+    await db_object.execute("INSERT INTO users( username ) VALUES(%s)",("Test"))
 
 
 async def on_startup(dp):
