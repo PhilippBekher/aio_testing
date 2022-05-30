@@ -15,6 +15,7 @@ from bot.settings import (BOT_TOKEN, HEROKU_APP_NAME,
                           WEBAPP_HOST, WEBAPP_PORT, DB_URL)
 
 db_connection = psycopg2.connect( DB_URL, sslmode = "require")
+db_object = db_connection.cursor()
 
 
 bot = Bot(token=BOT_TOKEN)
