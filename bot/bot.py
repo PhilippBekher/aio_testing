@@ -30,6 +30,7 @@ async def start(message: types.Message):
     id = message.from_user.id
     username = message.from_user.username
     fullname = message.from_user.first_name + ' ' + message.from_user.last_name
+    print(id,username,fullname)
 
     db_object.execute(f"SELECT id FROM users WHERE id = {id}")
     result = db_object.fetchone()
