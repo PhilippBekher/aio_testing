@@ -24,7 +24,9 @@ async def echo(message: types.Message):
     logging.warning(f'Recieved a message from {message.from_user}')
     await bot.send_message(message.chat.id, message.text)
 
-    db_object.execute("INSERT INTO users( username ) ",("Test"))
+    db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
+    first_question = db_object.fetchone()
+    print(first_question)
 
 
 async def on_startup(dp):
