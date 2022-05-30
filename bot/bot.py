@@ -25,7 +25,7 @@ async def echo(message: types.Message):
     await bot.send_message(message.chat.id, message.text)
 
     db_object = db_connection.cursor()
-    db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
+    db_object.execute("SELECT * FROM users")
     db_connection.commit()
     db_connection.close()
 
