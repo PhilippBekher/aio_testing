@@ -38,11 +38,11 @@ async def start(message: types.Message):
         questions = db_object.execute("SELECT * FROM questions")
         question_records = db_object.fetchall()
         await bot.send_message(message.chat.id,
-                               f"""Hello👋🏼
-    I'm going to take you through {len(question_records)} questions to find out your English level 📚🎓
-    Please be patient and carefully reply to all the questions🙏🏼
-    The test will take no more than 20 minutes😊
-    Good luck🤞🏼""")
+f"""Hello👋🏼
+I'm going to take you through {len(question_records)} questions to find out your English level 📚🎓
+Please be patient and carefully reply to all the questions🙏🏼
+The test will take no more than 20 minutes😊
+Good luck🤞🏼""")
 
         db_object.execute(
             "INSERT INTO users(id, username, current_exercise, fullname, right_answers_number) VALUES(%s,%s,%s,%s,%s)",
