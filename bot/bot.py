@@ -64,12 +64,13 @@ f"""{first_question[6]}. Fill in the gap:
 async def after_text(message):
     questions = db_object.execute("SELECT * FROM questions")
     question_records = db_object.fetchall()
-    current_right_answers_number = 0
+
     print(question_records)
 
     id = message.from_user.idid = message.from_user.id
     db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
     result = db_object.fetchone()
+    current_right_answers_number = result[1]
     print(result)
 
     current_exercise_right_answer = db_object.execute(f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
