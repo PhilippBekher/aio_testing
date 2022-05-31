@@ -80,10 +80,8 @@ async def after_text(message):
           db_connection.commit();
 
     if result[0] == len(question_records):
-        current_exercise_right_answer = db_object.execute(
-        f"SELECT right_answer FROM questions WHERE question_id = {result[0]}"
-        )
-        print('you reached the last question')
+       print(current_right_answers_number)
+
 
     if result[0] < len(question_records):
         next_exercise_id = result[0] + 1
