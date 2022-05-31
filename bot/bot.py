@@ -104,8 +104,8 @@ Your level is: {level}
 We'll contact you very soon🙂""")
             db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
             db_connection.commit()
-            unreachable_exercise_number = len(question_records) + 1
-            db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (unreachable_exercise_number,))
+            # unreachable_exercise_number = len(question_records) + 1
+            # db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (unreachable_exercise_number,))
 
 
 
