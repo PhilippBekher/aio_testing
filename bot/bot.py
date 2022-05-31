@@ -52,11 +52,10 @@ Good luck🤞🏼""")
         first_question = db_object.fetchone()
 
 
-        keyboard = ReplyKeyboardMarkup( resize_keyboard=True,one_time_keyboard=True).row(f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}', f'{first_question[5]}')
-
+        keyboard = ReplyKeyboardMarkup( resize_keyboard=True,one_time_keyboard=True).row(f'{first_question[1]}', f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}')
         await bot.send_message(message.chat.id,
-                               f"""{first_question[5]}. Fill in the gap:
-    {first_question[1]}""", reply_markup=keyboard)
+                               f"""{first_question[6]}. Fill in the gap:
+    {first_question[0]}""", reply_markup=keyboard)
         db_connection.commit();
     # await bot.send_message(message.chat.id, message.text)
     #
@@ -130,11 +129,13 @@ We'll contact you very soon🙂""", reply_markup = keyboard)
         ).row(f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}', f'{first_question[5]}')
 
         await bot.send_message(message.chat.id,
-                               f"""{first_question[5]}. Fill in the gap:
-          {first_question[1]}""", reply_markup=keyboard)
+                               f"""{first_question[6]}. Fill in the gap:
+          {first_question[0]}""", reply_markup=keyboard)
 
         keyboard = ReplyKeyboardMarkup(one_time_keyboard=True).row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
         # keyboard.row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
+
+
         await bot.send_message(message.chat.id,
 f"""{next_exercise[5]}. Fill in the gap:
 {next_exercise[1]}""", reply_markup=keyboard)
@@ -153,8 +154,6 @@ f"""{next_exercise[5]}. Fill in the gap:
 
 
 async def on_startup(dp):
-
-
     logging.warning(
         'Starting connection. ')
     await bot.set_webhook(WEBHOOK_URL,drop_pending_updates=True)
