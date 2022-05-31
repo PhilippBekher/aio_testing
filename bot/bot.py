@@ -70,7 +70,44 @@ async def after_text(message):
     db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
     result = db_object.fetchone()
     print(result)
-#
+
+
+    if result[0] == len(question_records):
+        current_exercise_right_answer = db_object.execute(
+        f"SELECT right_answer FROM questions WHERE question_id = {result[0]}"
+        )
+        print('you reached the last question')
+
+    if result[0] < len(question_records):
+        next_exercise_id = result[0] + 1
+        db_object.execute(f"SELECT * FROM questions WHERE question_id = {next_exercise_id}")
+        next_exercise = db_object.fetchone()
+        db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (next_exercise_id,))
+
+        keyboard = ReplyKeyboardMarkup(
+            one_time_keyboard=True
+        ).row(f'{next_exercise[1]}', f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}')
+
+        await bot.send_message(message.chat.id,
+f"""{next_exercise[6]}. Fill in the gap:
+{next_exercise[0]}""", reply_markup=keyboard)
+    db_connection.commit()
+
+
+
+
+
+        # current_exercise_right_answer = db_object.execute(
+        #     f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
+        # right_answer_object = db_object.fetchone()
+        #
+        # if message.text == right_answer_object[0]:
+        #     current_right_answers_number = result[1] + 1
+        #     db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}",
+        #                       (current_right_answers_number,))
+        #     db_connection.commit();
+        #
+        # db_connection.commit()
 
 
 #
