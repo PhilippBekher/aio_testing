@@ -64,7 +64,7 @@ f"""{first_question[6]}. Fill in the gap:
 async def after_text(message):
     questions = db_object.execute("SELECT * FROM questions")
     question_records = db_object.fetchall()
-    current_right_answers_number
+    current_right_answers_number = 0
     print(question_records)
 
     id = message.from_user.idid = message.from_user.id
