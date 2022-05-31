@@ -64,6 +64,7 @@ f"""{first_question[6]}. Fill in the gap:
 async def after_text(message):
     questions = db_object.execute("SELECT * FROM questions")
     question_records = db_object.fetchall()
+    current_right_answers_number
     print(question_records)
 
     id = message.from_user.idid = message.from_user.id
@@ -80,7 +81,28 @@ async def after_text(message):
           db_connection.commit();
 
     if result[0] == len(question_records):
-       print(current_right_answers_number)
+            level = ''
+            percent_of_right_answers = current_right_answers_number/len(question_records)
+            if 0 <= percent_of_right_answers <= 0.17:
+                level = 'Beginner'
+            elif 0.17 < percent_of_right_answers <= 0.37:
+                level = 'Elementary'
+            elif 0.37 < percent_of_right_answers <= 0.53:
+                level = 'Pre-Intermediate'
+            elif 0.53 < percent_of_right_answers <= 0.73:
+                level = 'Intermediate'
+            elif 0.73 < percent_of_right_answers <= 0.9:
+                level = 'Upper-Intermediate'
+            else:
+                level = 'Advanced'
+
+            await bot.send_message(message.chat.id,
+f"""Thank you for taking the test😊
+Number of right answers is: { current_right_answers_number }
+Your level is: {level}
+We'll contact you very soon🙂""")
+            db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
+            db_connection.commit()
 
 
     if result[0] < len(question_records):
