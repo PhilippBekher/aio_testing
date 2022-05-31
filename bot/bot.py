@@ -52,9 +52,7 @@ Good luck🤞🏼""")
         first_question = db_object.fetchone()
 
 
-        keyboard = ReplyKeyboardMarkup(
-             one_time_keyboard=True
-        ).row(f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}', f'{first_question[5]}')
+        keyboard = ReplyKeyboardMarkup( resize_keyboard=True,one_time_keyboard=True).row(f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}', f'{first_question[5]}')
 
         await bot.send_message(message.chat.id,
                                f"""{first_question[0]}. Fill in the gap:
