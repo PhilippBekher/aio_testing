@@ -64,90 +64,93 @@ f"""{first_question[6]}. Fill in the gap:
 async def after_text(message):
     questions = db_object.execute("SELECT * FROM questions")
     question_records = db_object.fetchall()
-
-    id = message.from_user.id
-    db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
-    result = db_object.fetchone()
-    print(result)
-
-    if result[0] == len(question_records):
-        current_exercise_right_answer = db_object.execute(
-            f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
-        right_answer_object = db_object.fetchone()
-        final_right_answers_number = result[1]
-
-        if message.text == right_answer_object[0]:
-            current_exercise_right_answer = db_object.execute(
-                f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
-            right_answer_object = db_object.fetchone()
-            current_right_answers_number = result[1] + 1
-            final_right_answers_number = current_right_answers_number
-            db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}",
-                              (current_right_answers_number,))
-            db_connection.commit();
-
-        level = ''
-        percent_of_right_answers = final_right_answers_number/len(question_records)
-
-        if 0 <= percent_of_right_answers <= 0.17:
-            level = 'Beginner'
-        elif 0.17 < percent_of_right_answers <= 0.37:
-            level = 'Elementary'
-        elif 0.37 < percent_of_right_answers <= 0.53:
-            level = 'Pre-Intermediate'
-        elif 0.53 < percent_of_right_answers <= 0.73:
-            level = 'Intermediate'
-        elif 0.73 < percent_of_right_answers <= 0.9:
-            level = 'Upper-Intermediate'
-        else:
-            level = 'Advanced'
-
-
-
-        db_object.execute(f"SELECT right_answers_number FROM users WHERE id = {id}")
-
-        current_number_of_right_answers = db_object.fetchone()
-        await bot.send_message(message.chat.id,
-f"""Thank you for taking the test😊
-Number of right answers is: { current_number_of_right_answers[0] } 
-Your level is: {level}
-We'll contact you very soon🙂""")
-        db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
-        db_connection.commit()
-
-    if result[0] < len(question_records):
-        next_exercise_id = result[0] + 1
-        db_object.execute(f"SELECT * FROM questions WHERE question_id = {next_exercise_id}")
-        next_exercise = db_object.fetchone()
-        db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (next_exercise_id,))
-
-        keyboard = ReplyKeyboardMarkup(
-            one_time_keyboard=True
-        ).row(f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}', f'{first_question[5]}')
-
-        await bot.send_message(message.chat.id,
-                               f"""{first_question[6]}. Fill in the gap:
-          {first_question[0]}""", reply_markup=keyboard)
-
-        keyboard = ReplyKeyboardMarkup(one_time_keyboard=True).row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
-        # keyboard.row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
-
-
-        await bot.send_message(message.chat.id,
-f"""{next_exercise[5]}. Fill in the gap:
-{next_exercise[1]}""", reply_markup=keyboard)
-
-        current_exercise_right_answer = db_object.execute(
-            f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
-        right_answer_object = db_object.fetchone()
-
-        if message.text == right_answer_object[0]:
-            current_right_answers_number = result[1] + 1
-            db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}",
-                              (current_right_answers_number,))
-            db_connection.commit();
-
-        db_connection.commit()
+    print(question_records)
+#     questions = db_object.execute("SELECT * FROM questions")
+#     question_records = db_object.fetchall()
+#
+#     id = message.from_user.id
+#     db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
+#     result = db_object.fetchone()
+#     print(result)
+#
+#     if result[0] == len(question_records):
+#         current_exercise_right_answer = db_object.execute(
+#             f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
+#         right_answer_object = db_object.fetchone()
+#         final_right_answers_number = result[1]
+#
+#         if message.text == right_answer_object[0]:
+#             current_exercise_right_answer = db_object.execute(
+#                 f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
+#             right_answer_object = db_object.fetchone()
+#             current_right_answers_number = result[1] + 1
+#             final_right_answers_number = current_right_answers_number
+#             db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}",
+#                               (current_right_answers_number,))
+#             db_connection.commit();
+#
+#         level = ''
+#         percent_of_right_answers = final_right_answers_number/len(question_records)
+#
+#         if 0 <= percent_of_right_answers <= 0.17:
+#             level = 'Beginner'
+#         elif 0.17 < percent_of_right_answers <= 0.37:
+#             level = 'Elementary'
+#         elif 0.37 < percent_of_right_answers <= 0.53:
+#             level = 'Pre-Intermediate'
+#         elif 0.53 < percent_of_right_answers <= 0.73:
+#             level = 'Intermediate'
+#         elif 0.73 < percent_of_right_answers <= 0.9:
+#             level = 'Upper-Intermediate'
+#         else:
+#             level = 'Advanced'
+#
+#
+#
+#         db_object.execute(f"SELECT right_answers_number FROM users WHERE id = {id}")
+#
+#         current_number_of_right_answers = db_object.fetchone()
+#         await bot.send_message(message.chat.id,
+# f"""Thank you for taking the test😊
+# Number of right answers is: { current_number_of_right_answers[0] }
+# Your level is: {level}
+# We'll contact you very soon🙂""")
+#         db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
+#         db_connection.commit()
+#
+#     if result[0] < len(question_records):
+#         next_exercise_id = result[0] + 1
+#         db_object.execute(f"SELECT * FROM questions WHERE question_id = {next_exercise_id}")
+#         next_exercise = db_object.fetchone()
+#         db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (next_exercise_id,))
+#
+#         keyboard = ReplyKeyboardMarkup(
+#             one_time_keyboard=True
+#         ).row(f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}', f'{first_question[5]}')
+#
+#         await bot.send_message(message.chat.id,
+#                                f"""{first_question[6]}. Fill in the gap:
+#           {first_question[0]}""", reply_markup=keyboard)
+#
+#         keyboard = ReplyKeyboardMarkup(one_time_keyboard=True).row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
+#         # keyboard.row(f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}', f'{next_exercise[5]}')
+#
+#
+#         await bot.send_message(message.chat.id,
+# f"""{next_exercise[5]}. Fill in the gap:
+# {next_exercise[1]}""", reply_markup=keyboard)
+#
+#         current_exercise_right_answer = db_object.execute(
+#             f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
+#         right_answer_object = db_object.fetchone()
+#
+#         if message.text == right_answer_object[0]:
+#             current_right_answers_number = result[1] + 1
+#             db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}",
+#                               (current_right_answers_number,))
+#             db_connection.commit();
+#
+#         db_connection.commit()
 
 
 async def on_startup(dp):
