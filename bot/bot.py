@@ -65,13 +65,14 @@ async def after_text(message):
     questions = db_object.execute("SELECT * FROM questions")
     question_records = db_object.fetchall()
     print(question_records)
-#     questions = db_object.execute("SELECT * FROM questions")
-#     question_records = db_object.fetchall()
+
+    id = message.from_user.idid = message.from_user.id
+    db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
+    result = db_object.fetchone()
+    print(result)
 #
-#     id = message.from_user.id
-#     db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
-#     result = db_object.fetchone()
-#     print(result)
+
+
 #
 #     if result[0] == len(question_records):
 #         current_exercise_right_answer = db_object.execute(
