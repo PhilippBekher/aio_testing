@@ -107,6 +107,8 @@ Your level is: {level}
 We'll contact you very soon🙂""")
             db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
             db_connection.commit()
+            unreachable_number = current_right_answers_number + 1
+            db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (unreachable_number,))
 
 
     if result[0] < len(question_records):
