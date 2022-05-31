@@ -122,7 +122,7 @@ We'll contact you very soon🙂""")
         await bot.send_message(message.chat.id,
 f"""{next_exercise[6]}. Fill in the gap:
 {next_exercise[0]}""", reply_markup=keyboard)
-    db_connection.commit()
+        db_connection.commit()
 
 
 
