@@ -54,15 +54,11 @@ Good luck🤞🏼""")
 
         keyboard = ReplyKeyboardMarkup( resize_keyboard=True,one_time_keyboard=True).row(f'{first_question[1]}', f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}')
         await bot.send_message(message.chat.id,
-                               f"""{first_question[6]}. Fill in the gap:
-    {first_question[0]}""", reply_markup=keyboard)
+f"""{first_question[6]}. Fill in the gap:
+{first_question[0]}""", reply_markup=keyboard )
         db_connection.commit();
-    # await bot.send_message(message.chat.id, message.text)
-    #
-    # db_object = db_connection.cursor()
-    # db_object.execute("SELECT * FROM users")
-    # result = db_object.fetchone()
-    # print(result)
+    await bot.send_message(message.chat.id, message.text)
+
 
 @dp.message_handler(content_types=['text'])
 async def after_text(message):
@@ -108,7 +104,7 @@ async def after_text(message):
 
 
         db_object.execute(f"SELECT right_answers_number FROM users WHERE id = {id}")
-        keyboard = telebot.types.ReplyKeyboardRemove(selective = False)
+
         current_number_of_right_answers = db_object.fetchone()
         await bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
