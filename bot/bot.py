@@ -71,6 +71,13 @@ async def after_text(message):
     result = db_object.fetchone()
     print(result)
 
+    current_exercise_right_answer = db_object.execute(f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
+    right_answer_object = db_object.fetchone()
+    if message.text == right_answer_object[0]:
+          current_right_answers_number = result[1] + 1
+          db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}",
+          (current_right_answers_number,))
+          db_connection.commit();
 
     if result[0] == len(question_records):
         current_exercise_right_answer = db_object.execute(
@@ -85,7 +92,7 @@ async def after_text(message):
         db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (next_exercise_id,))
 
         keyboard = ReplyKeyboardMarkup(
-            one_time_keyboard=True
+            one_time_keyboard=True, resize_keyboard = True
         ).row(f'{next_exercise[1]}', f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}')
 
         await bot.send_message(message.chat.id,
