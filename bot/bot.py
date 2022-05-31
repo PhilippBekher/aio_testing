@@ -64,21 +64,19 @@ f"""{first_question[6]}. Fill in the gap:
 async def after_text(message):
     questions = db_object.execute("SELECT * FROM questions")
     question_records = db_object.fetchall()
-
+    current_right_answers_number
     print(question_records)
 
     id = message.from_user.idid = message.from_user.id
     db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
     result = db_object.fetchone()
-    current_right_answers_number_second_var = result[1]
     print(result)
 
     current_exercise_right_answer = db_object.execute(f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
     right_answer_object = db_object.fetchone()
     if message.text == right_answer_object[0]:
-        if result[0] <= len(question_records):
           current_right_answers_number = result[1] + 1
-          db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {current_right_answers_number}",
+          db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}",
           (current_right_answers_number,))
           db_connection.commit();
 
@@ -105,17 +103,13 @@ Your level is: {level}
 We'll contact you very soon🙂""")
             db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
             db_connection.commit()
-            unreachable_exercise_number = len(question_records) + 1
-            db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (unreachable_exercise_number,))
-            db_connection.commit()
-
 
 
     if result[0] < len(question_records):
         next_exercise_id = result[0] + 1
         db_object.execute(f"SELECT * FROM questions WHERE question_id = {next_exercise_id}")
         next_exercise = db_object.fetchone()
-
+        db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (next_exercise_id,))
 
         keyboard = ReplyKeyboardMarkup(
             one_time_keyboard=True, resize_keyboard = True
@@ -124,7 +118,7 @@ We'll contact you very soon🙂""")
         await bot.send_message(message.chat.id,
 f"""{next_exercise[6]}. Fill in the gap:
 {next_exercise[0]}""", reply_markup=keyboard)
-        db_connection.commit()
+    db_connection.commit()
 
 
 
