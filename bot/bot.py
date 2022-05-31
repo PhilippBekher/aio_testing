@@ -76,8 +76,9 @@ async def after_text(message):
     current_exercise_right_answer = db_object.execute(f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
     right_answer_object = db_object.fetchone()
     if message.text == right_answer_object[0]:
+        if result[0] <= len(questions):
           current_right_answers_number = result[1] + 1
-          db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {id}",
+          db_object.execute(f"UPDATE users SET right_answers_number = %s WHERE id = {current_right_answers_number}",
           (current_right_answers_number,))
           db_connection.commit();
 
@@ -104,8 +105,9 @@ Your level is: {level}
 We'll contact you very soon🙂""")
             db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
             db_connection.commit()
-            # unreachable_exercise_number = len(question_records) + 1
-            # db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (unreachable_exercise_number,))
+            unreachable_exercise_number = len(question_records) + 1
+            db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (unreachable_exercise_number,))
+            db_connection.commit()
 
 
 
