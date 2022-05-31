@@ -70,7 +70,7 @@ async def after_text(message):
     id = message.from_user.idid = message.from_user.id
     db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
     result = db_object.fetchone()
-    current_right_answers_number = result[1]
+    current_right_answers_number_second_var = result[1]
     print(result)
 
     current_exercise_right_answer = db_object.execute(f"SELECT right_answer FROM questions WHERE question_id = {result[0]}")
