@@ -64,7 +64,6 @@ f"""{first_question[6]}. Fill in the gap:
 async def after_text(message):
     questions = db_object.execute("SELECT * FROM questions")
     question_records = db_object.fetchall()
-    current_right_answers_number
     print(question_records)
 
     id = message.from_user.idid = message.from_user.id
@@ -81,8 +80,13 @@ async def after_text(message):
           db_connection.commit();
 
     if result[0] == len(question_records):
+            current_right_answers_number_object = db_object.execute(f"SELECT right_answers_number FROM users WHERE id = {id}")
+            current_right_answers_number_object_fetched = db_object.fetchone()
+            db_connection.commit();
+
             level = ''
-            percent_of_right_answers = current_right_answers_number/len(question_records)
+            percent_of_right_answers = current_right_answers_number_object_fetched[0]/len(question_records)
+
             if 0 <= percent_of_right_answers <= 0.17:
                 level = 'Beginner'
             elif 0.17 < percent_of_right_answers <= 0.37:
