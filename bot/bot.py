@@ -30,7 +30,7 @@ async def start(message: types.Message):
     id = message.from_user.id
     username = message.from_user.username
     fullname = message.from_user.first_name + ' ' + message.from_user.last_name
-    print(id,username,fullname)
+
 
     db_object.execute(f"SELECT id FROM users WHERE id = {id}")
     result = db_object.fetchone()
@@ -57,7 +57,7 @@ Good luck🤞🏼""")
 f"""{first_question[6]}. Fill in the gap:
 {first_question[0]}""", reply_markup=keyboard )
         db_connection.commit();
-    await bot.send_message(message.chat.id, message.text)
+
 
 
 @dp.message_handler(content_types=['text'])
@@ -68,6 +68,7 @@ async def after_text(message):
     id = message.from_user.id
     db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
     result = db_object.fetchone()
+    print(result)
 
     if result[0] == len(question_records):
         current_exercise_right_answer = db_object.execute(
