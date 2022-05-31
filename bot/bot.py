@@ -102,12 +102,12 @@ async def after_text(message):
 
             await bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
-Number of right answers is: { current_right_answers_number }
+Number of right answers is: { current_right_answers_number_object_fetched[0] }
 Your level is: {level}
 We'll contact you very soon🙂""")
             db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
             db_connection.commit()
-            unreachable_number = current_right_answers_number + 1
+            unreachable_number = current_right_answers_number_object_fetched[0] + 1
             db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (unreachable_number,))
             db_connection.commit()
 
