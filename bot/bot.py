@@ -19,6 +19,7 @@ from databases import Database
 
 
 database = Database(DB_URL)
+
 # db_connection = psycopg2.connect( DB_URL, sslmode = "require")
 # db_object = db_connection.cursor()
 
@@ -36,8 +37,8 @@ async def start(message: types.Message):
     fullname = message.from_user.first_name + ' ' + message.from_user.last_name
     chat_id = message.chat.id
 
-    await database.execute(f"SELECT id FROM users WHERE id = {id}")
-    result = database.fetchone()
+    await database.execute(f"SELECT * FROM users")
+    result = database.fetch_all
     message_time = message.date
     unix_time_stamp = time.time()
     await bot.send_message(chat_id,result[0])
