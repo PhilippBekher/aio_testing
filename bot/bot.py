@@ -38,7 +38,7 @@ async def start(message: types.Message):
     chat_id = message.chat.id
 
     await database.execute(f"SELECT * FROM users")
-    result = database.fetch_all
+    result = database.fetch_all()
     message_time = message.date
     unix_time_stamp = time.time()
     await bot.send_message(chat_id,result[0])
