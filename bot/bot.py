@@ -33,26 +33,13 @@ async def start(message: types.Message):
     fullname = message.from_user.first_name + ' ' + message.from_user.last_name
     chat_id = message.chat.id
 
-    db_object.execute(f"SELECT id FROM users WHERE id = {id}")
-    result = db_object.fetchone()
+    await database.execute(f"SELECT id FROM users WHERE id = {id}")
+    result = database.fetchone()
     message_time = message.date
     unix_time_stamp = time.time()
+    await bot.send_message(chat_id,result[0])
 
-    if not result:
-        questions = db_object.execute("SELECT * FROM questions")
-        question_records = db_object.fetchall()
-        await bot.send_message(message.chat.id,
-f"""Hello👋🏼
-I'm going to take you through {len(question_records)} questions to find out your English level 📚🎓
-Please be patient and carefully reply to all the questions🙏🏼
-The test will take no more than 20 minutes😊
-Good luck🤞🏼""")
 
-        db_object.execute(
-            "INSERT INTO users(id, username, current_exercise, fullname, right_answers_number, chat_id, last_message_time, unix_timestamp ) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)",
-            (id, username, 1, fullname, 0, chat_id, message_time,unix_time_stamp ))
-        db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
-        first_question = db_object.fetchone()
 
 # @dp.message_handler(commands=["start"])
 # async def start(message: types.Message):
