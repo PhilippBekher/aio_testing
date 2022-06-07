@@ -3,7 +3,9 @@ aiodns==2.0.0
 aiogram==2.11.2
 aiohttp==3.7.4
 async-timeout==3.0.1
+asyncpg==0.25.0
 attrs==20.3.0
+databases==0.5.5
 autopep8==1.5.4
 Babel==2.9.0
 cchardet==2.1.7
