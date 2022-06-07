@@ -65,8 +65,13 @@ async def after_text(message):
     questions = db_object.execute("SELECT * FROM questions")
     question_records = db_object.fetchall()
     print(question_records)
-
+    message_time = message.date
     id = message.from_user.idid = message.from_user.id
+
+    cursor.execute(f"UPDATE users SET last_message_time = %s WHERE id = {id}",(message_time,))
+    conn.commit()
+
+
     db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
     result = db_object.fetchone()
     if(result[0] == 100):
@@ -126,6 +131,17 @@ We'll contact you very soon🙂""")
         await bot.send_message(message.chat.id,
 f"""{next_exercise[6]}. Fill in the gap:
 {next_exercise[0]}""", reply_markup=keyboard)
+        await asyncio.sleep(900)
+
+
+        cursor.execute(f"SELECT current_exercise FROM users WHERE id = {id}")
+        curernt_task = cursor.fetchone()[0]
+        if result[0] == curernt_task:
+            await bot.send_message(message.chat.id, "Hey buddy! Don't give up halfway💪")
+
+
+
+
     db_connection.commit()
 
 
