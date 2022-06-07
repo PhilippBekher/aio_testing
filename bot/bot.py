@@ -66,7 +66,7 @@ async def after_text(message):
     question_records = db_object.fetchall()
     print(question_records)
     message_time = message.date
-    id = message.from_user.idid = message.from_user.id
+    id = message.from_user.id
 
     db_object.execute(f"UPDATE users SET last_message_time = %s WHERE id = {id}",(message_time,))
     db_connection.commit()
@@ -131,8 +131,6 @@ We'll contact you very soon🙂""")
         await bot.send_message(message.chat.id,
 f"""{next_exercise[6]}. Fill in the gap:
 {next_exercise[0]}""", reply_markup=keyboard)
-
-
 
     db_connection.commit()
 
