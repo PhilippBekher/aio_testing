@@ -30,6 +30,7 @@ async def start(message: types.Message):
     id = message.from_user.id
     username = message.from_user.username
     fullname = message.from_user.first_name + ' ' + message.from_user.last_name
+    chat_id = message.chat.id
 
 
     db_object.execute(f"SELECT id FROM users WHERE id = {id}")
@@ -46,7 +47,7 @@ The test will take no more than 20 minutes😊
 Good luck🤞🏼""")
 
         db_object.execute(
-            "INSERT INTO users(id, username, current_exercise, fullname, right_answers_number, ) VALUES(%s,%s,%s,%s,%s)",
+            "INSERT INTO users(id, username, current_exercise, fullname, right_answers_number, chat_id ) VALUES(%s,%s,%s,%s,%s,%s)",
             (id, username, 1, fullname, 0,))
         db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
         first_question = db_object.fetchone()
