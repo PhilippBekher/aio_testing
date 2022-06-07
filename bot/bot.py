@@ -68,7 +68,7 @@ async def after_text(message):
     message_time = message.date
     id = message.from_user.idid = message.from_user.id
 
-    cursor.execute(f"UPDATE users SET last_message_time = %s WHERE id = {id}",(message_time,))
+    db_object.execute(f"UPDATE users SET last_message_time = %s WHERE id = {id}",(message_time,))
     conn.commit()
 
 
