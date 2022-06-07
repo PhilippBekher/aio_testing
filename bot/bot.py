@@ -16,8 +16,8 @@ from bot.settings import (BOT_TOKEN, HEROKU_APP_NAME,
 import datetime, time
 from db import database
 
-db_connection = psycopg2.connect( DB_URL, sslmode = "require")
-db_object = db_connection.cursor()
+# db_connection = psycopg2.connect( DB_URL, sslmode = "require")
+# db_object = db_connection.cursor()
 
 
 bot = Bot(token=BOT_TOKEN)
