@@ -58,6 +58,7 @@ Good luck🤞🏼""")
         await bot.send_message(message.chat.id,
 f"""{first_question[6]}. Fill in the gap:
 {first_question[0]}""", reply_markup=keyboard )
+
         db_connection.commit();
 
 
@@ -73,7 +74,7 @@ async def after_text(message):
 
     db_object.execute(f"UPDATE users SET last_message_time = %s WHERE id = {id}",(message_time,))
     db_connection.commit()
-    db_object.execute(f"UPDATE users SET last_message_time = %s WHERE id = {id}", (unix_time_stamp,))
+    db_object.execute(f"UPDATE users SET unix_timestamp = %s WHERE id = {id}", (unix_time_stamp,))
     db_connection.commit()
 
 
