@@ -131,13 +131,13 @@ We'll contact you very soon🙂""")
         await bot.send_message(message.chat.id,
 f"""{next_exercise[6]}. Fill in the gap:
 {next_exercise[0]}""", reply_markup=keyboard)
-        # await asyncio.sleep(30)
-        #
-        #
-        # db_object.execute(f"SELECT current_exercise FROM users WHERE id = {id}")
-        # curernt_task = db_object.fetchone()[0]
-        # if result[0] == curernt_task:
-        #     await bot.send_message(message.chat.id, "Hey buddy! Don't give up halfway💪")
+
+        await asyncio.sleep(30)
+
+        db_object.execute(f"SELECT current_exercise FROM users WHERE id = {id}")
+        curernt_task = db_object.fetchone()[0]
+        if result[0] == curernt_task:
+            await bot.send_message(message.chat.id, "Hey buddy! Don't give up halfway💪")
 
 
 
