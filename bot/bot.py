@@ -14,8 +14,11 @@ from bot.settings import (BOT_TOKEN, HEROKU_APP_NAME,
                           WEBHOOK_URL, WEBHOOK_PATH,
                           WEBAPP_HOST, WEBAPP_PORT, DB_URL)
 import datetime, time
-from db import database
 
+from databases import Database
+from config import DB_URL
+
+database = Database(DB_URL)
 # db_connection = psycopg2.connect( DB_URL, sslmode = "require")
 # db_object = db_connection.cursor()
 
