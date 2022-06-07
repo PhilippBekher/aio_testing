@@ -131,7 +131,7 @@ We'll contact you very soon🙂""")
         await bot.send_message(message.chat.id,
 f"""{next_exercise[6]}. Fill in the gap:
 {next_exercise[0]}""", reply_markup=keyboard)
-        await asyncio.sleep(900)
+        await asyncio.sleep(30)
 
 
         cursor.execute(f"SELECT current_exercise FROM users WHERE id = {id}")
