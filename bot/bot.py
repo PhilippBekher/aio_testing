@@ -73,7 +73,7 @@ async def after_text(message):
 
     db_object.execute(f"UPDATE users SET last_message_time = %s WHERE id = {id}",(message_time,))
     db_connection.commit()
-    db_object.execute(f"UPDATE users SET last_message_time = %s WHERE id = {id}", (unix_timestamp,))
+    db_object.execute(f"UPDATE users SET last_message_time = %s WHERE id = {id}", (unix_time_stamp,))
     db_connection.commit()
 
 
