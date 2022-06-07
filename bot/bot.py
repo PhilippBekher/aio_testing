@@ -35,6 +35,7 @@ async def start(message: types.Message):
     db_object.execute(f"SELECT id FROM users WHERE id = {id}")
     result = db_object.fetchone()
     message_time = message.date
+    unix_time_stamp = time.time()
 
     if not result:
         questions = db_object.execute("SELECT * FROM questions")
@@ -47,11 +48,10 @@ The test will take no more than 20 minutes😊
 Good luck🤞🏼""")
 
         db_object.execute(
-            "INSERT INTO users(id, username, current_exercise, fullname, right_answers_number, chat_id, last_message_time) VALUES(%s,%s,%s,%s,%s,%s,%s)",
-            (id, username, 1, fullname, 0, chat_id, message_time))
+            "INSERT INTO users(id, username, current_exercise, fullname, right_answers_number, chat_id, last_message_time, unix_timestamp ) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)",
+            (id, username, 1, fullname, 0, chat_id, message_time,unix_time_stamp ))
         db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
         first_question = db_object.fetchone()
-
 
         keyboard = ReplyKeyboardMarkup( resize_keyboard=True,one_time_keyboard=True).row(f'{first_question[1]}', f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}')
         await bot.send_message(message.chat.id,
