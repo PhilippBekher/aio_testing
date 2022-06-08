@@ -1,6 +1,7 @@
 # amazing_project
 import logging
 
+import re
 import psycopg2
 from aiogram import Bot, types
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
@@ -77,8 +78,22 @@ async def after_text(message):
     db_connection.commit()
 
 
-    db_object.execute(f"SELECT current_exercise, right_answers_number FROM users WHERE id = {id}")
+    db_object.execute(f"SELECT current_exercise, right_answers_number, status FROM users WHERE id = {id}")
     result = db_object.fetchone()
+    if (result[2] == 'waiting for email'):
+        email_match = re.search("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", message.text)
+        if email_match == None:
+            await bot.send_message(message.chat.id,
+f"""There's something wrong with your email🤔
+Please try again""")
+        if email_match != None:
+            await bot.send_message(message.chat.id,
+f"""Thanks!
+The results will be sent in a moment😉""")
+            email = email_match.string
+            await bot.send_message(message.chat.id,
+f"""You've got a new email: {email}""")
+
     if(result[0] == 100):
         return
 
@@ -110,6 +125,23 @@ async def after_text(message):
                 level = 'Upper-Intermediate'
             else:
                 level = 'Advanced'
+                if message.from_user.username != None:
+                    await bot.send_message(message.chat.id,
+f"""Thank you for taking the test😊
+We'll contact you very soon🙂""")
+
+                    await bot.send_message(message.chat.id,
+f"""You have got a new request from {message.from_user.first_name + ' ' + message.from_user.last_name}
+The user's level is {level}
+Press the link below to contact:
+ https://t.me/{message.from_user.username}""")
+
+                if message.from_user.username == None:
+                    await bot.send_message(message.chat.id,
+f"""Thank you for taking the test!
+Please write your email to let us send you results☺""")
+                    db_object.execute(f"UPDATE users SET status = 'waiting for email' WHERE id = {id}")
+                    db_connection.commit()
 
             await bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
@@ -121,6 +153,9 @@ We'll contact you very soon🙂""")
 
             db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (100,))
             db_connection.commit()
+
+
+
 
 
 
