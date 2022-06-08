@@ -143,11 +143,11 @@ Please write your email to let us send you results☺""")
                     db_object.execute(f"UPDATE users SET status = 'waiting for email' WHERE id = {id}")
                     db_connection.commit()
 # hello
-            await bot.send_message(message.chat.id,
-f"""Thank you for taking the test😊
-Number of right answers is: { current_right_answers_number_object_fetched[0] }
-Your level is: {level}
-We'll contact you very soon🙂""")
+#             await bot.send_message(message.chat.id,
+# f"""Thank you for taking the test😊
+# Number of right answers is: { current_right_answers_number_object_fetched[0] }
+# Your level is: {level}
+# We'll contact you very soon🙂""")
             db_object.execute(f"UPDATE users SET level = %s WHERE id = {id}", (level,))
             db_connection.commit()
 
