@@ -125,23 +125,23 @@ f"""You've got a new email: {email}""")
                 level = 'Upper-Intermediate'
             else:
                 level = 'Advanced'
-                if message.from_user.username != None:
-                    await bot.send_message(message.chat.id,
+            if message.from_user.username != None:
+                await bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
 We'll contact you very soon🙂""")
 
-                    await bot.send_message(message.chat.id,
+                await bot.send_message(message.chat.id,
 f"""You have got a new request from {message.from_user.first_name + ' ' + message.from_user.last_name}
 The user's level is {level}
 Press the link below to contact:
  https://t.me/{message.from_user.username}""")
 
-                if message.from_user.username == None:
-                    await bot.send_message(message.chat.id,
+            if message.from_user.username == None:
+                await bot.send_message(message.chat.id,
 f"""Thank you for taking the test!
 Please write your email to let us send you results☺""")
-                    db_object.execute(f"UPDATE users SET status = 'waiting for email' WHERE id = {id}")
-                    db_connection.commit()
+                db_object.execute(f"UPDATE users SET status = 'waiting for email' WHERE id = {id}")
+                db_connection.commit()
 # hello
 #             await bot.send_message(message.chat.id,
 # f"""Thank you for taking the test😊
