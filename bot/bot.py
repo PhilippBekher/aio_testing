@@ -133,7 +133,7 @@ f"""You've got a new email: {email}""")
 f"""Thank you for taking the test😊
 Number of right answers is: { current_right_answers_number_object_fetched[0] }
 Your level is: {level}""")
-                await bot.send_message(message.chat_id,
+                await bot.send_message(message.chat.id,
 f"""Поздравляю, тест успешно пройден! 
 
 Но…ты же не думал-а, что уйдёшь без подарков за твои старания? ☺️ 
@@ -163,7 +163,7 @@ Number of right answers is: {current_right_answers_number_object_fetched[0]}
 Your level is: {level}
 Type your email if you'd like to get some learning materials from our school 📚📈""")
 
-                await bot.send_message(message.chat_id,
+                await bot.send_message(message.chat.id,
 f"""Поздравляю, тест успешно пройден! 
 
 Но…ты же не думал-а, что уйдёшь без подарков за твои старания? ☺️ 
