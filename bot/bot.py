@@ -94,7 +94,7 @@ https://t.me/{message.from_user.username}""")
         if message.from_user.username == None:
             await bot.send_message(message.chat.id,
 f"""Пожалуйста, свяжитесь с нами по ссылке ниже 🙏🏻👇:
-https://t.me/@polina_mech""")
+https://t.me/@pauline_efm""")
 
 
 #         email_match = re.search("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", message.text)
