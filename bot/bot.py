@@ -56,7 +56,8 @@ Good luck🤞🏼""")
         db_object.execute("SELECT * FROM questions WHERE question_id = 1 ")
         first_question = db_object.fetchone()
 
-        keyboard = ReplyKeyboardMarkup( resize_keyboard=True,one_time_keyboard=True).row(f'{first_question[1]}', f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}')
+        # keyboard = ReplyKeyboardMarkup( resize_keyboard=True,one_time_keyboard=True).row(f'{first_question[1]}', f'{first_question[2]}', f'{first_question[3]}', f'{first_question[4]}')
+        keyboard = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(f'{first_question[1]}').add(f'{first_question[2]}').add(f'{first_question[3]}').add(f'{first_question[4]}')
         await bot.send_message(message.chat.id,
 f"""{first_question[6]}. Fill in the gap:
 {first_question[0]}""", reply_markup=keyboard )
@@ -131,8 +132,22 @@ f"""You've got a new email: {email}""")
                 await bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
 Number of right answers is: { current_right_answers_number_object_fetched[0] }
-Your level is: {level}
-We'll contact you very soon🙂""")
+Your level is: {level}""")
+                await bot.send_message(message.chat_id,
+f"""Поздравляю, тест успешно пройден! 
+
+Но…ты же не думал-а, что уйдёшь без подарков за твои старания? ☺️ 
+
+Мы дарим тебе летнюю скидку 33% на занятия английским у нас в мини-группах до 5 человек по уровням.
+
+С нами английский в удовольствие ❤️
+Наши студенты переезжают за границу, проходят собеседования, устраиваются в зарубежные компании (IT и не только), наконец-то заговаривают на английском и перестают чувствовать себя инопланетянами 👽 среди иностранцев)
+
+Скорее забирай свою скидку и take your English to the next level 🚀
+
+Love you to the Moon and back,
+
+Your English From Moscow club 💫""")
 
                 await bot.send_message( 217287457,
 f"""You have got a new request from hz
@@ -141,9 +156,33 @@ Press the link below to contact:
  https://t.me/{message.from_user.username}""")
 
             if message.from_user.username == None:
+                # addition
                 await bot.send_message(message.chat.id,
-f"""Thank you for taking the test!
-Please write your email to let us send you results☺""")
+f"""Thank you for taking the test😊
+Number of right answers is: {current_right_answers_number_object_fetched[0]}
+Your level is: {level}
+Type your email if you'd like to get some learning materials from our school 📚📈""")
+
+                await bot.send_message(message.chat_id,
+f"""Поздравляю, тест успешно пройден! 
+
+Но…ты же не думал-а, что уйдёшь без подарков за твои старания? ☺️ 
+
+Мы дарим тебе летнюю скидку 33% на занятия английским у нас в мини-группах до 5 человек по уровням.
+
+С нами английский в удовольствие ❤️
+Наши студенты переезжают за границу, проходят собеседования, устраиваются в зарубежные компании (IT и не только), наконец-то заговаривают на английском и перестают чувствовать себя инопланетянами 👽 среди иностранцев)
+
+Скорее забирай свою скидку и take your English to the next level 🚀
+
+Love you to the Moon and back,
+
+Your English From Moscow club 💫 """)
+                # addition
+
+#                 await bot.send_message(message.chat.id,
+# f"""Thank you for taking the test!
+# Please write your email to let us send you results☺""")
                 db_object.execute(f"UPDATE users SET status = 'waiting for email' WHERE id = {id}")
                 db_connection.commit()
 # hello
@@ -170,9 +209,10 @@ Please write your email to let us send you results☺""")
         next_exercise = db_object.fetchone()
         db_object.execute(f"UPDATE users SET current_exercise = %s WHERE id = {id}", (next_exercise_id,))
 
-        keyboard = ReplyKeyboardMarkup(
-            one_time_keyboard=True, resize_keyboard = True
-        ).row(f'{next_exercise[1]}', f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}')
+        # keyboard = ReplyKeyboardMarkup(
+        #     one_time_keyboard=True, resize_keyboard = True
+        # ).row(f'{next_exercise[1]}', f'{next_exercise[2]}', f'{next_exercise[3]}', f'{next_exercise[4]}')
+        keyboard = ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard = True).add(f'{next_exercise[1]}').add(f'{next_exercise[2]}').add(f'{next_exercise[3]}').add(f'{next_exercise[4]}')
 
         await bot.send_message(message.chat.id,
 f"""{next_exercise[6]}. Fill in the gap:
