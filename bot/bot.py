@@ -128,6 +128,8 @@ f"""You've got a new email: {email}""")
             if message.from_user.username != None:
                 await bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
+Number of right answers is: { current_right_answers_number_object_fetched[0] }
+Your level is: {level}
 We'll contact you very soon🙂""")
 
                 await bot.send_message( 217287457,
