@@ -83,19 +83,32 @@ async def after_text(message):
 
     db_object.execute(f"SELECT current_exercise, right_answers_number, status FROM users WHERE id = {id}")
     result = db_object.fetchone()
-    if (result[2] == 'waiting for email'):
-        email_match = re.search("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", message.text)
-        if email_match == None:
-            await bot.send_message(message.chat.id,
-f"""There's something wrong with your email🤔
-Please try again""")
-        if email_match != None:
-            await bot.send_message(message.chat.id,
-f"""Thanks!
-The results will be sent in a moment😉""")
-            email = email_match.string
+    if (result[2] == 'waiting for email' and message.text == 'Хочу узнать подробнее!'):
+
+        if message.from_user.username != None:
+            await bot.send_message(message.chat.id, 'Чудесно! Мы скоро свяжемся с вами☺')
             await bot.send_message(217287457,
-f"""You've got a new email: {email}""")
+f"""Мадмуазель, у вас новая заявочка.
+https://t.me/{message.from_user.username}""")
+
+        if message.from_user.username == None:
+            await bot.send_message(message.chat.id,
+f"""Пожалуйста, свяжитесь с нами по ссылке ниже 🙏🏻👇:
+https://t.me/@polina_mech""")
+
+
+#         email_match = re.search("(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", message.text)
+#         if email_match == None:
+#             await bot.send_message(message.chat.id,
+# f"""There's something wrong with your email🤔
+# Please try again""")
+#         if email_match != None:
+#             await bot.send_message(message.chat.id,
+# f"""Thanks!
+# The results will be sent in a moment😉""")
+#             email = email_match.string
+#             await bot.send_message(217287457,
+# f"""You've got a new email: {email}""")
 
     if(result[0] == 100):
         return
@@ -133,6 +146,8 @@ f"""You've got a new email: {email}""")
 f"""Thank you for taking the test😊
 Number of right answers is: { current_right_answers_number_object_fetched[0] }
 Your level is: {level}""")
+                keyboard = ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True).add(
+                    'Хочу узнать подробнее!')
                 await bot.send_message(message.chat.id,
 f"""Поздравляю, тест успешно пройден! 
 
@@ -147,7 +162,8 @@ f"""Поздравляю, тест успешно пройден!
 
 Love you to the Moon and back,
 
-Your English From Moscow club 💫""")
+Your English From Moscow club 💫""", reply_markup=keyboard)
+
 
                 await bot.send_message( 217287457,
 f"""You have got a new request from hz
@@ -155,14 +171,17 @@ The user's level is {level}
 Press the link below to contact:
  https://t.me/{message.from_user.username}""")
 
+                db_object.execute(f"UPDATE users SET status = 'waiting for email' WHERE id = {id}")
+                db_connection.commit()
+
             if message.from_user.username == None:
                 # addition
                 await bot.send_message(message.chat.id,
 f"""Thank you for taking the test😊
 Number of right answers is: {current_right_answers_number_object_fetched[0]}
-Your level is: {level}
-Type your email if you'd like to get some learning materials from our school 📚📈""")
-
+Your level is: {level}""")
+                keyboard = ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True).add(
+                    'Хочу узнать подробнее!')
                 await bot.send_message(message.chat.id,
 f"""Поздравляю, тест успешно пройден! 
 
@@ -177,7 +196,10 @@ f"""Поздравляю, тест успешно пройден!
 
 Love you to the Moon and back,
 
-Your English From Moscow club 💫 """)
+Your English From Moscow club 💫 """, reply_markup = keyword)
+
+
+
                 # addition
 
 #                 await bot.send_message(message.chat.id,
