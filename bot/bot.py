@@ -18,6 +18,7 @@ import datetime, time
 
 db_connection = psycopg2.connect( DB_URL, sslmode = "require")
 db_object = db_connection.cursor()
+db_object.autocommit = True
 
 
 bot = Bot(token=BOT_TOKEN)
