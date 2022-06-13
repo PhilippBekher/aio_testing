@@ -131,7 +131,7 @@ f"""Thank you for taking the test😊
 We'll contact you very soon🙂""")
 
                 await bot.send_message( 217287457,
-f"""You have got a new request from {message.from_user.first_name + ' ' + message.from_user.last_name}
+f"""You have got a new request from hz
 The user's level is {level}
 Press the link below to contact:
  https://t.me/{message.from_user.username}""")
